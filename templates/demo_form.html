@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demographic Form</title>
+</head>
+<body>
+    <h1>Demographic Form</h1>
+    <form method="POST" action="/add_demographic_info">
+        <label for="pat_name">Patient Name:</label>
+        <input type="text" id="pat_name" name="pat_name" required><br>
+
+        <label for="pat_sex">Patient Sex:</label>
+        <input type="radio" id="male" name="pat_sex" value="Male" required>
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="pat_sex" value="Female" required>
+        <label for="female">Female</label>
+        <input type="radio" id="other" name="pat_sex" value="Other" required>
+        <label for="other">Other</label><br>
+
+        <label for="pat_birth">Date of Birth:</label>
+        <input type="date" id="pat_birth" name="pat_birth" required><br>
+
+        <label for="pat_address">Address:</label>
+        <input type="text" id="pat_address" name="pat_address" required><br>
+
+        <label for="pat_phone">Phone:</label>
+        <input type="tel" id="pat_phone" name="pat_phone" required><br>
+
+        <label for="pat_email">Email:</label>
+        <input type="email" id="pat_email" name="pat_email" required><br>
+
+        <label for="pat_em_name">Emergency Contact Name:</label>
+        <input type="text" id="pat_em_name" name="pat_em_name" required><br>
+
+        <label for="pat_em_relationship">Emergency Contact Relationship:</label>
+        <input type="text" id="pat_em_relationship" name="pat_em_relationship" required><br>
+
+        <label for="pat_em_phone">Emergency Contact Phone:</label>
+        <input type="tel" id="pat_em_phone" name="pat_em_phone" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

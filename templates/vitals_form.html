@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vital Signs Form</title>
+</head>
+<body>
+    <h1>Vital Signs Form</h1>
+    <form method="POST" action="/add_vital_signs">
+        <label for="visit_date">Visit Date:</label>
+        <input type="date" id="visit_date" name="visit_date" required><br>
+
+        <label for="blood_pressure">Blood Pressure:</label>
+        <input type="text" id="blood_pressure" name="blood_pressure" required><br>
+
+        <label for="heart_rate">Heart Rate:</label>
+        <input type="text" id="heart_rate" name="heart_rate" required><br>
+
+        <label for="body_temp">Body Temperature:</label>
+        <input type="text" id="body_temp" name="body_temp" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

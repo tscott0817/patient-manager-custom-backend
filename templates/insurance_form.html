@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insurance Info Form</title>
+</head>
+<body>
+    <h1>Insurance Info Form</h1>
+    <form method="POST" action="/add_insurance_info">
+        <label for="ins_name">Insurance Company:</label>
+        <input type="text" id="ins_name" name="ins_name" required><br>
+
+        <label for="ins_subscriber">Subscriber Name (Policy Owner):</label>
+        <input type="text" id="ins_subscriber" name="ins_subscriber" required><br>
+
+        <label for="ins_policy_num">Policy Number:</label>
+        <input type="text" id="ins_policy_num" name="ins_policy_num" required><br>
+
+        <label for="pat_relationship">Relationship to Insured:</label>
+        <input type="text" id="pat_relationship" name="pat_relationship" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
