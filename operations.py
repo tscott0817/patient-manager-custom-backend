@@ -4,15 +4,19 @@ from psycopg2 import errors
 from passlib.hash import sha256_crypt
 
 
-def create_roles():
-    # Database connection parameters
-    conn = psycopg2.connect(
+def connect_to_database():
+    return psycopg2.connect(
         database="patients",
         user='postgres',
         password='Oblivion14',
         host='localhost',
         port='5432'
     )
+
+
+def create_roles():
+    # Database connection parameters
+    conn = connect_to_database()
 
     # Connect to the database with superuser privileges
     # conn = psycopg2.connect(**db_params)
@@ -45,16 +49,6 @@ def create_roles():
     conn.commit()
     cur.close()
     conn.close()
-
-
-def connect_to_database():
-    return psycopg2.connect(
-        database="patients",
-        user='postgres',
-        password='Oblivion14',
-        host='localhost',
-        port='5432'
-    )
 
 
 def create_user(username, password):
@@ -205,13 +199,7 @@ def insert_insurance_info(pat_id, patient_insurance_data):
 
 
 def update_patient_data(pat_id, patient_demo_data, patient_insurance_data):
-    conn = psycopg2.connect(
-        database="patients",
-        user='postgres',
-        password='Oblivion14',
-        host='localhost',
-        port='5432'
-    )
+    conn = connect_to_database()
     conn.autocommit = True
 
     cursor = conn.cursor()
@@ -259,13 +247,7 @@ def update_patient_data(pat_id, patient_demo_data, patient_insurance_data):
 
 def insert_patient_vitals(pat_id, patient_vital_data):
     # Connect to the PostgreSQL database
-    conn = psycopg2.connect(
-        database="patients",
-        user='postgres',
-        password='Oblivion14',
-        host='localhost',
-        port='5432'
-    )
+    conn = connect_to_database()
 
     # Create a cursor
     cursor = conn.cursor()
@@ -296,15 +278,9 @@ def insert_patient_vitals(pat_id, patient_vital_data):
             conn.close()
 
 
-def get_pat_id():
-    # Return the pat_id from the login_data table
-    conn = psycopg2.connect(
-        database="patients",
-        user='postgres',
-        password='Oblivion14',
-        host='localhost',
-        port='5432'
-    )
+# Get the pat_id of the currently logged in user
+def get_pat_id(username):
+    conn = connect_to_database()
     conn.autocommit = True
 
     cursor = conn.cursor()
@@ -313,8 +289,9 @@ def get_pat_id():
         sql_select = '''
             SELECT pat_id
             FROM login_data
+            WHERE username = %s
         '''
-        cursor.execute(sql_select)
+        cursor.execute(sql_select, (username,))
         pat_id = cursor.fetchone()[0]
         return pat_id
 
@@ -328,14 +305,34 @@ def get_pat_id():
 
 
 
+# def get_pat_id():
+#     # Return the pat_id from the login_data table
+#     conn = connect_to_database()
+#     conn.autocommit = True
+#
+#     cursor = conn.cursor()
+#
+#     try:
+#         sql_select = '''
+#             SELECT pat_id
+#             FROM login_data
+#         '''
+#         cursor.execute(sql_select)
+#         pat_id = cursor.fetchone()[0]
+#         return pat_id
+#
+#     except Exception as e:
+#         # Handle any exceptions that may occur during database operations
+#         print(f"Error: {e}")
+#         return None
+#     finally:
+#         cursor.close()
+#         conn.close()
+
+
+
 def get_patient_data(pat_id):
-    conn = psycopg2.connect(
-        database="patients",
-        user='postgres',
-        password='Oblivion14',
-        host='localhost',
-        port='5432'
-    )
+    conn = connect_to_database()
     conn.autocommit = True
 
     cursor = conn.cursor()
@@ -389,13 +386,7 @@ def get_patient_data(pat_id):
 
 
 def delete_patient_data(pat_id):
-    conn = psycopg2.connect(
-        database="patients",
-        user='postgres',
-        password='Oblivion14',
-        host='localhost',
-        port='5432'
-    )
+    conn = connect_to_database()
     conn.autocommit = True
 
     cursor = conn.cursor()

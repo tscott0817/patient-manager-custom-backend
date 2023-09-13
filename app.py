@@ -202,6 +202,20 @@ def add_vital_signs():
     return render_template("vitals_form.html")
 
 
+@app.route('/patient_data', methods=['GET', 'POST'])
+def patient_data():
+
+    # pat_id = operations.get_pat_id()
+    pat_id = get_patient_id()
+    login_data, demo_data, insurance_data, vitals = operations.get_patient_data(pat_id)
+
+    if login_data is None:
+        return "Patient data not found."
+
+    # Redirect to info_display.html and use the data from the database to populate the page
+
+    return render_template('info_display.html', login_data=login_data, demo_data=demo_data, insurance_data=insurance_data,
+                           vitals=vitals)
 @app.route("/logout")
 def logout():
     # Redirect to the login page and don't allow going back
@@ -222,30 +236,9 @@ def delete_account():
     return "Invalid request"
 
 
-
-# @app.route("/delete_account", methods=["POST"])
-# @app.route("/delete_account", methods=["GET", "POST"])
-# def delete_account():
-#     if request.method == "POST":
-#         # pat_id = request.form.get("pat_id")
-#         # Get the current patient id
-#         pat_id = get_patient_id()
-#
-#         if pat_id:
-#             # Call the delete_patient_data function with the patient ID
-#             operations.delete_patient_data(pat_id)
-#
-#             # Redirect the user to a confirmation page or log them out
-#             return redirect(url_for("login_page"))  # You can define this route
-#
-#     return "Invalid request"
-
-
 @app.route("/account_deleted")
 def account_deleted():
     return "Your account has been successfully deleted."
-
-
 
 
 if __name__ == "__main__":

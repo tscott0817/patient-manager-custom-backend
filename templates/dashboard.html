@@ -102,13 +102,12 @@
             <input type="submit" value="Next">
         </form>
 
-<!--        <div class="button-container">-->
-<!--            <a href="/delete_account">Delete My Account</a>-->
-<!--            <a href="/logout">Logout</a>-->
-<!--        </div>-->
         <div class="button-container">
             <form method="POST" action="/delete_account">
                 <button type="submit">Delete My Account</button>
+            </form>
+            <form method="POST" action="/patient_data">
+                <button type="submit">View My Data</button>
             </form>
             <a href="/logout">Logout</a>
         </div>
