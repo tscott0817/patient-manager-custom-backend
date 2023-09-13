@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 import psycopg2
 import operations
 import create_db
@@ -5,47 +7,66 @@ import create_db
 
 # TODO: This feels weird to have as global.
 # Database connection settings
-db_connection = psycopg2.connect(
-    database="patients",
-    user="postgres",
-    password="Oblivion14",
-    host="localhost",
-    port="5432"
-)
+# db_connection = psycopg2.connect(
+#     database="patients",
+#     user="postgres",
+#     password="Oblivion14",
+#     host="localhost",
+#     port="5432"
+# )
+
+def connect_to_database():
+    # Extract the host from the ElephantSQL URL
+    url = urlparse("postgres://hppjpzgb:9Jahd0BH-IsGSHJNmOxK75HncHLZgIdC@berry.db.elephantsql.com/hppjpzgb")
+    hostname = url.hostname
+
+    return psycopg2.connect(
+        database="hppjpzgb",
+        user='hppjpzgb',
+        password='9Jahd0BH-IsGSHJNmOxK75HncHLZgIdC',
+        host=hostname,
+        port='5432'
+    )
 
 
 def main():
-    create_db.create_database('patients')
+    # create_db.create_database('patients')
     create_db.add_tables()
 
-    print("Patient Management System - Login")
-    login_choice = int(input("Press 1 to login, 2 to create new user: "))
-    if login_choice == 1:
-        pat_id = operations.login()
+    # Fetch and print data from each table
+    create_db.fetch_and_print_table_data('login_data')
+    create_db.fetch_and_print_table_data('demographic_info')
+    create_db.fetch_and_print_table_data('insurance_info')
+    create_db.fetch_and_print_table_data('vitals')
 
-        running = True
-        while running:
-            print("\nOptions:")
-            print("1. Add / Update Information")
-            print("2. Delete Patient")
-            print("3. Logout")
-            op_choice = int(input("Enter your choice: "))
-
-            if op_choice == 1:
-                t_choice = table_choice()
-                add_info(pat_id, t_choice)
-
-            # TODO: Works good, but add secondary check (are you sure?)
-            elif op_choice == 2:
-                operations.delete_patient_data(pat_id)
-            elif op_choice == 3:
-                print("Logged out.")
-                running = False
-            else:
-                print("Invalid choice. Please select a valid option (1-4).")
-
-    elif login_choice == 2:
-        operations.create_user()
+    # print("Patient Management System - Login")
+    # login_choice = int(input("Press 1 to login, 2 to create new user: "))
+    # if login_choice == 1:
+    #     pat_id = operations.login()
+    #
+    #     running = True
+    #     while running:
+    #         print("\nOptions:")
+    #         print("1. Add / Update Information")
+    #         print("2. Delete Patient")
+    #         print("3. Logout")
+    #         op_choice = int(input("Enter your choice: "))
+    #
+    #         if op_choice == 1:
+    #             t_choice = table_choice()
+    #             add_info(pat_id, t_choice)
+    #
+    #         # TODO: Works good, but add secondary check (are you sure?)
+    #         elif op_choice == 2:
+    #             operations.delete_patient_data(pat_id)
+    #         elif op_choice == 3:
+    #             print("Logged out.")
+    #             running = False
+    #         else:
+    #             print("Invalid choice. Please select a valid option (1-4).")
+    #
+    # elif login_choice == 2:
+    #     operations.create_user()
 
 
 # Which table to add / update

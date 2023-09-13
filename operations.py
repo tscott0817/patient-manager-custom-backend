@@ -1,15 +1,33 @@
+from urllib.parse import urlparse
+
 import psycopg2
 from psycopg2 import sql
 from psycopg2 import errors
 from passlib.hash import sha256_crypt
 
 
+# TODO: For local db
+# def connect_to_database():
+#     return psycopg2.connect(
+#         database="patients",
+#         user='postgres',
+#         password='Oblivion14',
+#         host='localhost',
+#         port='5432'
+#     )
+
+
+# TODO: For remote db (ElephantSQL)
 def connect_to_database():
+    # Extract the host from the ElephantSQL URL
+    url = urlparse("postgres://hppjpzgb:9Jahd0BH-IsGSHJNmOxK75HncHLZgIdC@berry.db.elephantsql.com/hppjpzgb")
+    hostname = url.hostname
+
     return psycopg2.connect(
-        database="patients",
-        user='postgres',
-        password='Oblivion14',
-        host='localhost',
+        database="hppjpzgb",
+        user='hppjpzgb',
+        password='9Jahd0BH-IsGSHJNmOxK75HncHLZgIdC',
+        host=hostname,
         port='5432'
     )
 

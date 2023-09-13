@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 import psycopg2
 from psycopg2 import sql
 from psycopg2 import errors
@@ -6,16 +8,39 @@ from psycopg2 import errors
 '''
     Create DB
 '''
+# TODO: For remote db (ElephantSQL)
+def connect_to_database():
+    # Extract the host from the ElephantSQL URL
+    url = urlparse("postgres://hppjpzgb:9Jahd0BH-IsGSHJNmOxK75HncHLZgIdC@berry.db.elephantsql.com/hppjpzgb")
+    hostname = url.hostname
+
+    return psycopg2.connect(
+        database="hppjpzgb",
+        user='hppjpzgb',
+        password='9Jahd0BH-IsGSHJNmOxK75HncHLZgIdC',
+        host=hostname,
+        port='5432'
+    )
+
+# TODO: For local db
+# def connect_to_database():
+#     # Extract the host from the ElephantSQL URL
+#     url = urlparse("postgres://hppjpzgb:9Jahd0BH-IsGSHJNmOxK75HncHLZgIdC@berry.db.elephantsql.com/hppjpzgb")
+#     hostname = url.hostname
+#
+#     return psycopg2.connect(
+#         database="patients",
+#         user='postgres',
+#         password='Oblivion14',
+#         host='localhost',
+#         port='5432'
+#     )
+
+
 def create_database(database_name):
     try:
         # Supposed to connect to default database 'postgres' instead of just the server??
-        conn = psycopg2.connect(
-            database="postgres",
-            user='postgres',
-            password='Oblivion14',
-            host='localhost',
-            port='5432'
-        )
+        conn = connect_to_database()
         conn.autocommit = True
 
         cursor = conn.cursor()
@@ -169,13 +194,7 @@ def table_exists(conn, table_name):
 
 def add_tables():
 
-    conn = psycopg2.connect(
-        database="patients",
-        user='postgres',
-        password='Oblivion14',
-        host='localhost',
-        port='5432'
-    )
+    conn = connect_to_database()
     conn.autocommit = True
 
     create_demo_table(conn)
@@ -184,3 +203,33 @@ def add_tables():
     create_login_table(conn)
 
     conn.close()
+
+
+# Function to fetch and print data from a table
+def fetch_and_print_table_data(table_name):
+    # Connect to the database
+    connection = connect_to_database()
+
+    # Create a cursor to execute SQL commands
+    cursor = connection.cursor()
+
+    # Execute a SQL query to fetch data from the specified table
+    cursor.execute(f"SELECT * FROM {table_name}")
+
+    # Fetch all rows from the result set
+    rows = cursor.fetchall()
+
+    # Print the table name
+    print(f"Table: {table_name}")
+
+    # Print the column names
+    column_names = [desc[0] for desc in cursor.description]
+    print(column_names)
+
+    # Print the data rows
+    for row in rows:
+        print(row)
+
+    # Close the cursor and the database connection
+    cursor.close()
+    connection.close()
