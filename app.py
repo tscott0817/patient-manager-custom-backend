@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from passlib.hash import sha256_crypt
 import psycopg2
 import operations
+import os
 
 app = Flask(__name__, template_folder="templates")
 app.secret_key = "your_secret_key"  # Replace with a secure secret key
@@ -293,7 +294,11 @@ def account_deleted():
 # if __name__ == "__main__":
 #     app.run(debug=True)
 
+
+# TODO: Don't like this as global
+port = int(os.environ.get("PORT", 5000))
 if __name__ == "__main__":
     # app.run(debug=True)
-    app.run()
-    app.run(debug=False)
+    # app.run()
+    # app.run(debug=False)
+    app.run(host="0.0.0.0", port=port)
