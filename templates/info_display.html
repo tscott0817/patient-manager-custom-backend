@@ -1,62 +1,202 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Patient Data</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Patient Data</h1>-->
+<!--    <h2>Login Information</h2>-->
+<!--    <ul>-->
+<!--        <li>Patient ID: {{ login_data[0] }}</li>-->
+<!--        <li>Username: {{ login_data[1] }}</li>-->
+<!--        <li>Password: {{ login_data[2] }}</li>-->
+<!--        &lt;!&ndash; Add other login data fields as needed &ndash;&gt;-->
+<!--    </ul>-->
+
+<!--    <h2>Demographic Information</h2>-->
+<!--    <ul>-->
+<!--        <li>Name: {{ demo_data[2] }}</li>-->
+<!--        <li>Age: {{ demo_data[3] }}</li>-->
+<!--        <li>Sex: {{ demo_data[4] }}</li>-->
+<!--        <li>DOB: {{ demo_data[5] }}</li>-->
+<!--        <li>Phone: {{ demo_data[6] }}</li>-->
+<!--        <li>Email: {{ demo_data[7] }}</li>-->
+<!--        <li>Em. Contact: {{ demo_data[8] }}</li>-->
+<!--        <li>Em. Relationship: {{ demo_data[9] }}</li>-->
+<!--        <li>Em. Phone: {{ demo_data[10] }}</li>-->
+
+<!--        &lt;!&ndash; Add other demographic data fields as needed &ndash;&gt;-->
+<!--    </ul>-->
+
+<!--    <h2>Insurance Information</h2>-->
+<!--    <ul>-->
+<!--        <li>Insurance Company: {{ insurance_data[1] }}</li>-->
+<!--        <li>Subscriber Name: {{ insurance_data[2] }}</li>-->
+<!--        <li>Policy No.: {{ insurance_data[3] }}</li>-->
+<!--        <li>Relationship to Insured: {{ insurance_data[4] }}</li>-->
+<!--        &lt;!&ndash; Add other insurance data fields as needed &ndash;&gt;-->
+<!--    </ul>-->
+
+<!--    <h2>Vitals</h2>-->
+<!--    <table>-->
+<!--        <thead>-->
+<!--            <tr>-->
+<!--                <th>Date</th>-->
+<!--                <th>Heart Rate</th>-->
+<!--                <th>Temperature</th>-->
+<!--                &lt;!&ndash; Add other vitals data headers as needed &ndash;&gt;-->
+<!--            </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--            {% for vital in vitals %}-->
+<!--            <tr>-->
+<!--                <td>{{ vitals[1] }}</td>-->
+<!--                <td>{{ vitals[2] }}</td>-->
+<!--                <td>{{ vitals[3] }}</td>-->
+<!--                &lt;!&ndash; Add other vitals data fields as needed &ndash;&gt;-->
+<!--            </tr>-->
+<!--            {% endfor %}-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Patient Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #1f2e46, #34495e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .outer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .flash-messages {
+            padding: 10px;
+        }
+
+        .flash {
+            list-style: none;
+            padding: 0;
+        }
+
+        .flash-success {
+            background-color: #c1decd;
+            color: #24854d;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .flash-danger {
+            background-color: #f2dede;
+            color: #a94442;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            width: 80%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        h1, h2 {
+            color: #3498db;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .section-container {
+            background-color: rgba(220, 220, 220, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #333333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Patient Data</h1>
-    <h2>Login Information</h2>
-    <ul>
-        <li>Patient ID: {{ login_data[0] }}</li>
-        <li>Username: {{ login_data[1] }}</li>
-        <li>Password: {{ login_data[2] }}</li>
-        <!-- Add other login data fields as needed -->
-    </ul>
+    <div class="outer-container">
+        <div class="flash-messages">
+            <!-- Flash messages can be added here if needed -->
+        </div>
 
-    <h2>Demographic Information</h2>
-    <ul>
-        <li>Name: {{ demo_data[2] }}</li>
-        <li>Age: {{ demo_data[3] }}</li>
-        <li>Sex: {{ demo_data[4] }}</li>
-        <li>DOB: {{ demo_data[5] }}</li>
-        <li>Phone: {{ demo_data[6] }}</li>
-        <li>Email: {{ demo_data[7] }}</li>
-        <li>Em. Contact: {{ demo_data[8] }}</li>
-        <li>Em. Relationship: {{ demo_data[9] }}</li>
-        <li>Em. Phone: {{ demo_data[10] }}</li>
+        <div class="form-container">
+            <h1>Patient Data</h1>
 
-        <!-- Add other demographic data fields as needed -->
-    </ul>
+            <div class="section-container">
+                <h2>Login Information</h2>
+                <ul>
+                    <li>Patient ID: {{ login_data[0] }}</li>
+                    <li>Username: {{ login_data[1] }}</li>
+                    <li>Password: {{ login_data[2] }}</li>
+                    <!-- Add other login data fields as needed -->
+                </ul>
+            </div>
 
-    <h2>Insurance Information</h2>
-    <ul>
-        <li>Insurance Company: {{ insurance_data[1] }}</li>
-        <li>Subscriber Name: {{ insurance_data[2] }}</li>
-        <li>Policy No.: {{ insurance_data[3] }}</li>
-        <li>Relationship to Insured: {{ insurance_data[4] }}</li>
-        <!-- Add other insurance data fields as needed -->
-    </ul>
+            <div class="section-container">
+                <h2>Demographic Information</h2>
+                <ul>
+                    <li>Name: {{ demo_data[2] }}</li>
+                    <li>Age: {{ demo_data[3] }}</li>
+                    <li>Sex: {{ demo_data[4] }}</li>
+                    <li>DOB: {{ demo_data[5] }}</li>
+                    <li>Phone: {{ demo_data[6] }}</li>
+                    <li>Email: {{ demo_data[7] }}</li>
+                    <li>Em. Contact: {{ demo_data[8] }}</li>
+                    <li>Em. Relationship: {{ demo_data[9] }}</li>
+                    <li>Em. Phone: {{ demo_data[10] }}</li>
+                    <!-- Add other demographic data fields as needed -->
+                </ul>
+            </div>
 
-    <h2>Vitals</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Heart Rate</th>
-                <th>Temperature</th>
-                <!-- Add other vitals data headers as needed -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for vital in vitals %}
-            <tr>
-                <td>{{ vitals[1] }}</td>
-                <td>{{ vitals[2] }}</td>
-                <td>{{ vitals[3] }}</td>
-                <!-- Add other vitals data fields as needed -->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            <div class="section-container">
+                <h2>Insurance Information</h2>
+                <ul>
+                    <li>Insurance Company: {{ insurance_data[1] }}</li>
+                    <li>Subscriber Name: {{ insurance_data[2] }}</li>
+                    <li>Policy No.: {{ insurance_data[3] }}</li>
+                    <li>Relationship to Insured: {{ insurance_data[4] }}</li>
+                    <!-- Add other insurance data fields as needed -->
+                </ul>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+
+

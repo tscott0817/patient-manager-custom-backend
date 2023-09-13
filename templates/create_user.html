@@ -2,26 +2,166 @@
 <html>
 <head>
     <title>Create User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #1f2e46, #34495e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .outer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .flash-messages {
+            padding: 10px;
+        }
+
+        .flash {
+            list-style: none;
+            padding: 0;
+        }
+
+        .flash-success {
+            background-color: #c1decd;
+            color: #24854d;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .flash-danger {
+            background-color: #f2dede;
+            color: #a94442;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .create-user-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            width: 30%;
+            min-width: 250px;
+            height: 75%;
+            min-height: 200px;
+        }
+
+        h1 {
+            color: #3498db;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: left;
+            font-size: 16px;
+            color: #333333;
+        }
+
+        .input-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
+            display: block;
+            margin: 0 auto;
+            padding: 10px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: rgba(55, 55, 55, 0.1);
+            color: #333333;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        .create-account {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #fff;
+            text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.75);
+        }
+
+        .create-account a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+        }
+    </style>
 </head>
 <body>
-    <div class="create-user-container">
-        <h1>Create User</h1>
-        <form method="POST" action="/register">
-            <!-- Add registration form fields here -->
-            <div class="input-container">
-                <label for="new_username">Username:</label>
-                <input type="text" id="new_username" name="new_username" required>
+    <div class="outer-container">
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class="flash">
+                {% for message in messages %}
+                {% if "success" in message %}
+                <li class="flash-success">{{ message }}</li>
+                {% else %}
+                <li class="flash-danger">{{ message }}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+        </div>
 
-                <label for="new_password">Password:</label>
-                <input type="password" id="new_password" name="new_password" required>
+        <div class="create-user-container">
+            <h1>Create User</h1>
+            <form method="POST" action="/register">
+                <div class="input-container">
+                    <label for="new_username">Username:</label>
+                    <input type="text" id="new_username" name="new_username" required>
 
-                <label for="new_password">Re-Enter Password:</label>
-                <input type="password" id="new_password_2" name="new_password_2" required>
+                    <label for="new_password">Password:</label>
+                    <input type="password" id="new_password" name="new_password" required>
 
-            </div>
+                    <label for="new_password_2">Re-Enter Password:</label>
+                    <input type="password" id="new_password_2" name="new_password_2" required>
+                </div>
 
-            <input type="submit" value="Register">
-        </form>
+                <input type="submit" value="Register">
+            </form>
+        </div>
     </div>
 </body>
 </html>
+

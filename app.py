@@ -37,7 +37,9 @@ def login():
         session["patient_id"] = patient_id
         return redirect(url_for("dashboard", pat_id=patient_id))
     else:
-        return "Invalid login credentials. Please try again."
+        flash("Invalid login credentials. Please try again.", "danger")
+        return redirect(url_for("login_page"))
+
 
 
 def is_valid_login(username, password):

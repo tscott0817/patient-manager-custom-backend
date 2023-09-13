@@ -2,43 +2,177 @@
 <html>
 <head>
     <title>Demographic Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #1f2e46, #34495e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .outer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .flash-messages {
+            padding: 10px;
+        }
+
+        .flash {
+            list-style: none;
+            padding: 0;
+        }
+
+        .flash-success {
+            background-color: #c1decd;
+            color: #24854d;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .flash-danger {
+            background-color: #f2dede;
+            color: #a94442;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            width: 30%;
+            min-width: 250px;
+            max-height: 80vh; /* Set a maximum height for the container */
+            overflow-y: auto; /* Enable vertical scrolling when needed */
+        }
+
+        h1 {
+            color: #3498db;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: left;
+            font-size: 16px;
+            color: #333333;
+        }
+
+        .input-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="radio"],
+        input[type="date"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="submit"] {
+            display: block;
+            margin: 0 auto;
+            padding: 10px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: rgba(55, 55, 55, 0.1);
+            color: #333333;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
-    <h1>Demographic Form</h1>
-    <form method="POST" action="/add_demographic_info">
-        <label for="pat_name">Patient Name:</label>
-        <input type="text" id="pat_name" name="pat_name" required><br>
+    <div class="outer-container">
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class="flash">
+                {% for message in messages %}
+                {% if "success" in message %}
+                <li class="flash-success">{{ message }}</li>
+                {% else %}
+                <li class="flash-danger">{{ message }}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+        </div>
 
-        <label for="pat_sex">Patient Sex:</label>
-        <input type="radio" id="male" name="pat_sex" value="Male" required>
-        <label for="male">Male</label>
-        <input type="radio" id="female" name="pat_sex" value="Female" required>
-        <label for="female">Female</label>
-        <input type="radio" id="other" name="pat_sex" value="Other" required>
-        <label for="other">Other</label><br>
+        <div class="form-container">
+            <h1>Demographic Form</h1>
+            <form method="POST" action="/add_demographic_info">
+                <div class="input-container">
+                    <label for="pat_name">Patient Name:</label>
+                    <input type="text" id="pat_name" name="pat_name" required>
 
-        <label for="pat_birth">Date of Birth:</label>
-        <input type="date" id="pat_birth" name="pat_birth" required><br>
+                    <label for="pat_sex">Patient Sex:</label>
+                    <input type="radio" id="male" name="pat_sex" value="Male" required>
+                    <label for="male">Male</label>
+                    <input type="radio" id="female" name="pat_sex" value="Female" required>
+                    <label for="female">Female</label>
+                    <input type="radio" id="other" name="pat_sex" value="Other" required>
+                    <label for="other">Other</label>
 
-        <label for="pat_address">Address:</label>
-        <input type="text" id="pat_address" name="pat_address" required><br>
+                    <label for="pat_birth">Date of Birth:</label>
+                    <input type="date" id="pat_birth" name="pat_birth" required>
 
-        <label for="pat_phone">Phone:</label>
-        <input type="tel" id="pat_phone" name="pat_phone" required><br>
+                    <label for="pat_address">Address:</label>
+                    <input type="text" id="pat_address" name="pat_address" required>
 
-        <label for="pat_email">Email:</label>
-        <input type="email" id="pat_email" name="pat_email" required><br>
+                    <label for="pat_phone">Phone:</label>
+                    <input type="tel" id="pat_phone" name="pat_phone" required>
 
-        <label for="pat_em_name">Emergency Contact Name:</label>
-        <input type="text" id="pat_em_name" name="pat_em_name" required><br>
+                    <label for="pat_email">Email:</label>
+                    <input type="email" id="pat_email" name="pat_email" required>
 
-        <label for="pat_em_relationship">Emergency Contact Relationship:</label>
-        <input type="text" id="pat_em_relationship" name="pat_em_relationship" required><br>
+                    <label for="pat_em_name">Emergency Contact Name:</label>
+                    <input type="text" id="pat_em_name" name="pat_em_name" required>
 
-        <label for="pat_em_phone">Emergency Contact Phone:</label>
-        <input type="tel" id="pat_em_phone" name="pat_em_phone" required><br>
+                    <label for="pat_em_relationship">Emergency Contact Relationship:</label>
+                    <input type="text" id="pat_em_relationship" name="pat_em_relationship" required>
 
-        <input type="submit" value="Submit">
-    </form>
+                    <label for="pat_em_phone">Emergency Contact Phone:</label>
+                    <input type="tel" id="pat_em_phone" name="pat_em_phone" required>
+                </div>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
 </body>
 </html>

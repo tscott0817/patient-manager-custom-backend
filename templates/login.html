@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #1f2e46, #34495e); /* Darker background gradient */
+            background: linear-gradient(to right, #1f2e46, #34495e);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -13,17 +13,68 @@
             margin: 0;
         }
 
+        .outer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .flash-messages {
+            /*background-color: rgba(255, 255, 255, 0.9);*/
+            padding: 10px;
+            /*border-top-left-radius: 10px;*/
+            /*border-top-right-radius: 10px;*/
+        }
+
+        .flash {
+            list-style: none;
+            padding: 0;
+        }
+
+        /*.flash li {*/
+        /*    background-color: #f2dede;*/
+        /*    color: #a94442;*/
+        /*    padding: 10px;*/
+        /*    border-radius: 5px;*/
+        /*    margin-bottom: 10px;*/
+        /*    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);*/
+
+        /*}*/
+
+        .flash-success {
+            background-color: #c1decd;
+            color: #24854d;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .flash-danger {
+            background-color: #f2dede;
+            color: #a94442;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+        }
+
         .login-container {
-            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent light background */
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4); /* Slightly darker shadow */
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
             text-align: center;
-            width: 350px;
+            width: 30%;
+            min-width: 250px;
+            height: 75%;
+            min-height: 200px;
         }
 
         h1 {
-            color: #3498db; /* Highlighted title color */
+            color: #3498db;
             font-size: 24px;
             margin-bottom: 20px;
         }
@@ -34,8 +85,7 @@
             font-weight: bold;
             text-align: left;
             font-size: 16px;
-            color: #333333; /* Dark text color */
-
+            color: #333333;
         }
 
         .input-container {
@@ -47,23 +97,20 @@
         input[type="password"],
         input[type="submit"] {
             display: block;
-            margin: 0 auto; /* Center the input horizontally */
+            margin: 0 auto;
             padding: 10px;
             border: none;
-            /*border-bottom: 2px solid #3498db; !* Darker border color *!*/
             outline: none;
             font-size: 16px;
-            max-width: 100%; /* Prevent input from stretching */
-            width: 100%; /* Set to 100% if you want to maintain full width for smaller screens */
-            box-sizing: border-box; /* Include padding and border in the width calculation */
-            /*background-color: #2c3e50; !* Darker background color *!*/
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
             background-color: rgba(55, 55, 55, 0.1);
-            /*color: #fff; !* White text color *!*/
             color: #333333;
         }
 
         input[type="submit"] {
-            background-color: #3498db; /* Same as border color */
+            background-color: #3498db;
             color: #fff;
             border: none;
             padding: 12px 20px;
@@ -80,28 +127,45 @@
         .create-account {
             margin-top: 20px;
             font-size: 14px;
-            color: #fff; /* White text color */
-            /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); !* Drop shadow effect *!*/
-            text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.75); /* Drop shadow effect */
+            color: #fff;
+            text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.75);
         }
 
         .create-account a {
             color: #3498db;
             text-decoration: none;
             font-weight: bold;
-            text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25); /* Drop shadow effect */
+            text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
         }
     </style>
 </head>
 <body>
+
+<div class="outer-container">
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flash">
+            {% for message in messages %}
+            {% if "success" in message %}
+            <li class="flash-success">{{ message }}</li>  <!-- Add a class for success messages -->
+            {% else %}
+            <li class="flash-danger">{{ message }}</li>  <!-- Add a class for danger messages -->
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    </div>
+
     <div class="login-container">
 <!--        <h1>Login</h1>-->
         <form method="POST" action="/login">
             <div class="input-container">
-                <label for="username">Username:</label>
+                <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
 
-                <label for="password">Password:</label>
+                <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
 
@@ -110,12 +174,6 @@
 
         <p class="create-account">Don't have an account? <a href="/create_user">Create one</a></p>
     </div>
+</div>
 </body>
 </html>
-
-
-
-
-
-
-
