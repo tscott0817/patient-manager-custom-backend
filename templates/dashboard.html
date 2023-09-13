@@ -1,30 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-<!--<head>-->
-<!--    <title>Dashboard</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <h1>Welcome to the Dashboard</h1>-->
-
-<!--    <h2>Options:</h2>-->
-
-<!--    <form action="/select_option" method="POST">-->
-<!--        <select name="option">-->
-<!--            <option value="demographic">Demographic Info</option>-->
-<!--            <option value="insurance">Insurance Info</option>-->
-<!--            <option value="vitals">Vitals</option>-->
-<!--        </select>-->
-<!--        <input type="submit" value="Go">-->
-<!--    </form>-->
-
-<!--    <ul>-->
-<!--        <li><a href="/delete_account">Delete My Account</a></li>-->
-<!--        <li><a href="/logout">Logout</a></li>-->
-<!--    </ul>-->
-<!--</body>-->
-<!--</html>-->
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +5,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: linear-gradient(to right, #1f2e46, #34495e); /* Darker background gradient */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -41,20 +14,18 @@
         }
 
         .dashboard-container {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent light background */
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4); /* Slightly darker shadow */
             text-align: center;
-            width: 300px;
+            width: 350px;
         }
 
-        h1 {
-            color: #333;
-        }
-
-        h2 {
-            color: #333;
+        h1, h2 {
+            color: #3498db; /* Highlighted title color */
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
         form {
@@ -62,28 +33,51 @@
         }
 
         select {
+            display: block;
+            margin: 0 auto; /* Center the select horizontally */
             width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
+            border: none;
+            border-bottom: 2px solid #3498db; /* Darker border color */
+            outline: none;
             font-size: 16px;
+            max-width: 100%; /* Prevent select from stretching */
+            box-sizing: border-box; /* Include padding and border in the width calculation */
+            background-color: rgba(55, 55, 55, 0.1); /* Slightly transparent background */
+            color: #333333; /* Dark text color */
+        }
+
+        input[type="submit"] {
+            background-color: #3498db; /* Same as border color */
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            margin: 0 auto; /* Center the submit button horizontally */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
         }
 
         .button-container {
-            display: flex;
-            justify-content: space-between;
+            margin-top: 20px;
         }
 
         .button-container a {
+            color: #3498db;
             text-decoration: none;
-            color: #007BFF;
             font-weight: bold;
-            margin: 0 5px;
+            display: block;
+            margin-bottom: 10px;
         }
 
         .button-container a:hover {
-            color: #0056b3;
+            color: #2980b9;
         }
     </style>
 </head>
@@ -103,19 +97,14 @@
         </form>
 
         <div class="button-container">
-            <form method="POST" action="/delete_account">
-                <button type="submit">Delete My Account</button>
-            </form>
-            <form method="POST" action="/patient_data">
-                <button type="submit">View My Data</button>
-            </form>
+            <a href="/delete_account">Delete My Account</a>
+            <a href="/patient_data">View My Data</a>
             <a href="/logout">Logout</a>
         </div>
-
-
     </div>
 </body>
 </html>
+
 
 
 

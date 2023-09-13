@@ -1,28 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-<!--<head>-->
-<!--    <title>Login</title>-->
-<!--    <link rel="stylesheet" type="text/css" href="login.css">-->
-<!--</head>-->
-<!--<body>-->
-<!--    <div class="login-container">-->
-<!--        <h1>Login</h1>-->
-<!--        <form method="POST" action="/login">-->
-<!--            <div class="input-container">-->
-<!--                <label for="username">Username:</label>-->
-<!--                <input type="text" id="username" name="username" required>-->
-
-<!--                <label for="password">Password:</label>-->
-<!--                <input type="password" id="password" name="password" required>-->
-<!--            </div>-->
-
-<!--            <input type="submit" value="Login">-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</body>-->
-<!--</html>-->
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +5,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: linear-gradient(to right, #1f2e46, #34495e); /* Darker background gradient */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,16 +14,18 @@
         }
 
         .login-container {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent light background */
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4); /* Slightly darker shadow */
             text-align: center;
-            width: 300px;
+            width: 350px;
         }
 
         h1 {
-            color: #333;
+            color: #3498db; /* Highlighted title color */
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
         label {
@@ -56,41 +33,69 @@
             margin-bottom: 10px;
             font-weight: bold;
             text-align: left;
+            font-size: 16px;
+            color: #333333; /* Dark text color */
+
         }
 
         .input-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         input[type="text"],
-        input[type="password"] {
-            width: 100%;
+        input[type="password"],
+        input[type="submit"] {
+            display: block;
+            margin: 0 auto; /* Center the input horizontally */
             padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
+            border: none;
+            /*border-bottom: 2px solid #3498db; !* Darker border color *!*/
+            outline: none;
             font-size: 16px;
+            max-width: 100%; /* Prevent input from stretching */
+            width: 100%; /* Set to 100% if you want to maintain full width for smaller screens */
+            box-sizing: border-box; /* Include padding and border in the width calculation */
+            /*background-color: #2c3e50; !* Darker background color *!*/
+            background-color: rgba(55, 55, 55, 0.1);
+            /*color: #fff; !* White text color *!*/
+            color: #333333;
         }
 
         input[type="submit"] {
-            background-color: #007BFF;
+            background-color: #3498db; /* Same as border color */
             color: #fff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 3px;
+            padding: 12px 20px;
+            border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #2980b9;
+        }
+
+        .create-account {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #fff; /* White text color */
+            /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); !* Drop shadow effect *!*/
+            text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.75); /* Drop shadow effect */
+        }
+
+        .create-account a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25); /* Drop shadow effect */
         }
     </style>
+</head>
 <body>
     <div class="login-container">
-        <h1>Login</h1>
+<!--        <h1>Login</h1>-->
         <form method="POST" action="/login">
             <div class="input-container">
                 <label for="username">Username:</label>
@@ -103,11 +108,13 @@
             <input type="submit" value="Login">
         </form>
 
-        <!-- Add a button to navigate to the "Create User" page -->
-        <a href="/create_user">Create User</a>
+        <p class="create-account">Don't have an account? <a href="/create_user">Create one</a></p>
     </div>
 </body>
 </html>
+
+
+
 
 
 
