@@ -303,31 +303,32 @@ def get_pat_id(username):
         cursor.close()
         conn.close()
 
+def get_patient_name(pat_id):
+    conn = connect_to_database()
+    conn.autocommit = True
 
+    cursor = conn.cursor()
 
-# def get_pat_id():
-#     # Return the pat_id from the login_data table
-#     conn = connect_to_database()
-#     conn.autocommit = True
-#
-#     cursor = conn.cursor()
-#
-#     try:
-#         sql_select = '''
-#             SELECT pat_id
-#             FROM login_data
-#         '''
-#         cursor.execute(sql_select)
-#         pat_id = cursor.fetchone()[0]
-#         return pat_id
-#
-#     except Exception as e:
-#         # Handle any exceptions that may occur during database operations
-#         print(f"Error: {e}")
-#         return None
-#     finally:
-#         cursor.close()
-#         conn.close()
+    try:
+        sql_select = f'''
+            SELECT pat_name
+            FROM demographic_info
+            WHERE pat_id = {pat_id}
+        '''
+
+        cursor.execute(sql_select)
+        pat_name = cursor.fetchone()
+        print(pat_name)
+        return pat_name[0]
+
+    except Exception as e:
+        # Handle any exceptions that may occur during database operations
+        print(f"Error: {e}")
+        return None
+    finally:
+        cursor.close()
+        conn.close()
+
 
 
 

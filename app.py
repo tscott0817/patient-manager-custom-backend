@@ -88,17 +88,26 @@ def register():
 '''
     Main Dashboard
 '''
-def get_patient_id():
-    return session.get("patient_id", None)
-
-
 @app.route("/dashboard")
 def dashboard():
 
     patient_id = session.get("patient_id")
 
     if patient_id is not None:
-        return render_template("dashboard.html")
+        # Get the patient_id from the session
+        # pat_id = get_patient_id()
+
+        # Get the patient's name using the patient_id
+        patient_name = operations.get_patient_name(patient_id)
+
+        if patient_name is None:
+            # If no patient exists, then redirect to demographic form
+            # Flash "new patient message"
+            flash("New patient. Please fill out basic info to continue.", "success")
+            return redirect(url_for("add_demographic_info"))
+
+        else:
+            return render_template("dashboard.html", patient_name=patient_name)
     else:
         return "Unauthorized. Please login."
 
@@ -207,6 +216,27 @@ def add_vital_signs():
 '''
     Pull user data from database and display on info_display.html
 '''
+def get_patient_id():
+    return session.get("patient_id", None)
+
+
+@app.route('/display_patient_name')
+def display_patient_name():
+    # Get the patient_id from the session
+    pat_id = get_patient_id()
+
+    # Get the patient's name using the patient_id
+    patient_name = operations.get_patient_name(pat_id)
+
+    if patient_name is None:
+        return "Patient name not found."
+
+    return patient_name
+
+    # Pass the patient's name to the HTML template
+    # return render_template('dashboard.html', patient_name=patient_name)
+
+
 @app.route('/patient_data', methods=['GET', 'POST'])
 def patient_data():
     pat_id = get_patient_id()
