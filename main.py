@@ -1,12 +1,6 @@
 import psycopg2
-from psycopg2 import sql
-from psycopg2 import errors
-from passlib.hash import sha256_crypt
-
-from flask import Flask, render_template, request
-
-import create_db
 import operations
+import create_db
 
 
 # TODO: This feels weird to have as global.
@@ -128,33 +122,6 @@ def add_info(pat_id, t_choice):
         operations.insert_patient_vitals(pat_id, patient_vital_data)
     else:
         print("Invalid table choice. Please select a valid option (1-4).")
-
-
-# def connect_to_database(role):
-#     # Define the database connection parameters
-#     db_params = {
-#         'database': "patients",
-#         'user': 'postgres',
-#         'password': 'Oblivion14',
-#         'host': 'localhost',
-#         'port': '5432'
-#     }
-#
-#     # Connect to the database with the specified role
-#     try:
-#         # Establish a connection
-#         conn = psycopg2.connect(**db_params)
-#         conn.autocommit = True
-#
-#         # Set the role
-#         with conn.cursor() as cursor:
-#             cursor.execute(f"SET ROLE {role};")
-#
-#         return conn
-#
-#     except psycopg2.Error as e:
-#         print(f"Error connecting to the database: {e}")
-#         return None
 
 
 if __name__ == '__main__':
