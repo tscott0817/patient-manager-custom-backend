@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create User</title>
+</head>
+<body>
+    <div class="create-user-container">
+        <h1>Create User</h1>
+        <form method="POST" action="/register">
+            <!-- Add registration form fields here -->
+            <div class="input-container">
+                <label for="new_username">Username:</label>
+                <input type="text" id="new_username" name="new_username" required>
+
+                <label for="new_password">Password:</label>
+                <input type="password" id="new_password" name="new_password" required>
+
+                <label for="new_password">Re-Enter Password:</label>
+                <input type="password" id="new_password_2" name="new_password_2" required>
+
+            </div>
+
+            <input type="submit" value="Register">
+        </form>
+    </div>
+</body>
+</html>

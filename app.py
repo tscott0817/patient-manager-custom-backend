@@ -7,6 +7,9 @@ from psycopg2 import errors
 import create_db
 import operations
 
+
+# TODO: Abstract out functionality into separate files
+
 app = Flask(__name__, template_folder="templates")
 app.secret_key = "your_secret_key"  # Replace with a secure secret key
 
@@ -21,7 +24,6 @@ def connect_to_database():
     )
 
 
-# Define your login logic
 def is_valid_login(username, password):
     cursor = connect_to_database().cursor()
     cursor.execute("SELECT pat_id, password FROM login_data WHERE username = %s", (username,))
@@ -34,9 +36,10 @@ def is_valid_login(username, password):
 
     return None
 
-# Get the patient ID from the session
+
 def get_patient_id():
-    return session.get("patient_id", None)
+    # Get the pat_id from the current user's login table from the database
+    return session.get("patient_id", None)  # TODO: patient_id or pat_id???
 
 
 @app.route("/")
@@ -49,21 +52,47 @@ def login():
     username = request.form.get("username")
     password = request.form.get("password")
 
-    # Check if login is valid
     patient_id = is_valid_login(username, password)
 
     if patient_id:
-        # Store the patient ID in the session
         session["patient_id"] = patient_id
         return redirect(url_for("dashboard", pat_id=patient_id))
     else:
         return "Invalid login credentials. Please try again."
 
 
-# Dashboard route
+@app.route("/create_user")
+def create_user_page():
+    return render_template("create_user.html")
+
+
+@app.route("/register", methods=["POST"])
+def register():
+    new_username = request.form.get("new_username")
+    new_password = request.form.get("new_password")
+    new_password_2 = request.form.get("new_password_2")
+
+    # TODO: Maybe abstract out password matching check into operations.create_user()
+    if new_password != new_password_2:
+        flash("Passwords do not match. Please try again.", "danger")
+        return redirect(url_for("create_user_page"))
+    else:
+        new_user = operations.create_user(new_username, new_password)
+
+    if new_user:
+        # After successfully registering the user, you can redirect them to the login page
+        flash("User registered successfully. Please log in.", "success")
+        return redirect(url_for("login_page"))
+    else:
+        flash("User already exists. Please try again.", "danger")
+        return redirect(url_for("create_user_page"))
+
+    # return redirect(url_for("login_page"))
+
+
 @app.route("/dashboard")
 def dashboard():
-    # Retrieve the patient ID from the session
+
     patient_id = session.get("patient_id")
 
     if patient_id is not None:
@@ -83,7 +112,6 @@ def select_option():
     elif option == "vitals":
         return redirect(url_for("add_vital_signs"))
     else:
-        # Handle invalid or unexpected options
         return "Invalid option selected."
 
 
@@ -91,7 +119,6 @@ def select_option():
 def add_demographic_info():
 
     if request.method == "POST":
-        # Retrieve user input from the form
         pat_name = request.form.get("pat_name")
         pat_sex = request.form.get("pat_sex")
         pat_birth = request.form.get("pat_birth")
@@ -102,7 +129,6 @@ def add_demographic_info():
         pat_em_relationship = request.form.get("pat_em_relationship")
         pat_em_phone = request.form.get("pat_em_phone")
 
-        # Create a list to represent patient data
         patient_data = [
             pat_name,
             pat_sex,
@@ -130,16 +156,14 @@ def add_demographic_info():
 @app.route("/add_insurance_info", methods=["GET", "POST"])
 def add_insurance_info():
     if request.method == "POST":
-        # Retrieve user input from the form
+
         ins_name = request.form.get("ins_name")
         ins_subscriber = request.form.get("ins_subscriber")
         ins_policy_num = request.form.get("ins_policy_num")
         pat_relationship = request.form.get("pat_relationship")
 
-        # Assuming you have a function to get the patient ID
         pat_id = get_patient_id()
 
-        # Create a list to represent insurance info data
         insurance_data = [
             ins_name,
             ins_subscriber,
@@ -147,7 +171,6 @@ def add_insurance_info():
             pat_relationship
         ]
 
-        # Add the insurance data to the database
         operations.insert_insurance_info(pat_id, insurance_data)
 
         flash("Insurance information added successfully", "success")
@@ -158,16 +181,13 @@ def add_insurance_info():
 @app.route("/add_vital_signs", methods=["GET", "POST"])
 def add_vital_signs():
     if request.method == "POST":
-        # Retrieve user input from the form
         visit_date = request.form.get("visit_date")
         blood_pressure = request.form.get("blood_pressure")
         heart_rate = request.form.get("heart_rate")
         body_temp = request.form.get("body_temp")
 
-        # Assuming you have a function to get the patient ID
         pat_id = get_patient_id()
 
-        # Create a list to represent vital signs data
         vital_signs_data = [
             visit_date,
             blood_pressure,
@@ -175,7 +195,6 @@ def add_vital_signs():
             body_temp
         ]
 
-        # Add the vital signs data to the database
         operations.insert_patient_vitals(pat_id, vital_signs_data)
 
         flash("Vital signs information added successfully", "success")
@@ -183,17 +202,50 @@ def add_vital_signs():
     return render_template("vitals_form.html")
 
 
-@app.route("/delete_account")
-def delete_account():
-    # Add logic for handling account deletion
-    # Redirect or render the appropriate template
-    return "Delete My Account Page"
-
 @app.route("/logout")
 def logout():
-    # Add logic for logging out (e.g., clearing session)
-    # Redirect to the login page or any other page as needed
-    return "Logged out. You can redirect to the login page here."
+    # Redirect to the login page and don't allow going back
+    session.clear()
+    return redirect(url_for("login_page"))
+
+
+@app.route("/delete_account", methods=["POST"])
+def delete_account():
+    if request.method == "POST":
+        # pat_id = request.form.get("pat_id")
+        pat_id = get_patient_id()
+
+        if pat_id:
+            operations.delete_patient_data(pat_id)
+            return redirect(url_for("login_page"))
+
+    return "Invalid request"
+
+
+
+# @app.route("/delete_account", methods=["POST"])
+# @app.route("/delete_account", methods=["GET", "POST"])
+# def delete_account():
+#     if request.method == "POST":
+#         # pat_id = request.form.get("pat_id")
+#         # Get the current patient id
+#         pat_id = get_patient_id()
+#
+#         if pat_id:
+#             # Call the delete_patient_data function with the patient ID
+#             operations.delete_patient_data(pat_id)
+#
+#             # Redirect the user to a confirmation page or log them out
+#             return redirect(url_for("login_page"))  # You can define this route
+#
+#     return "Invalid request"
+
+
+@app.route("/account_deleted")
+def account_deleted():
+    return "Your account has been successfully deleted."
+
+
 
 
 if __name__ == "__main__":

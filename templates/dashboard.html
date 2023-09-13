@@ -1,27 +1,122 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Dashboard</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Welcome to the Dashboard</h1>-->
+
+<!--    <h2>Options:</h2>-->
+
+<!--    <form action="/select_option" method="POST">-->
+<!--        <select name="option">-->
+<!--            <option value="demographic">Demographic Info</option>-->
+<!--            <option value="insurance">Insurance Info</option>-->
+<!--            <option value="vitals">Vitals</option>-->
+<!--        </select>-->
+<!--        <input type="submit" value="Go">-->
+<!--    </form>-->
+
+<!--    <ul>-->
+<!--        <li><a href="/delete_account">Delete My Account</a></li>-->
+<!--        <li><a href="/logout">Logout</a></li>-->
+<!--    </ul>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .dashboard-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-container a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .button-container a:hover {
+            color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Dashboard</h1>
+    <div class="dashboard-container">
+        <h1>Welcome to the Dashboard</h1>
 
-    <h2>Options:</h2>
+        <h2>Options:</h2>
 
-    <form action="/select_option" method="POST">
-        <select name="option">
-            <option value="demographic">Demographic Info</option>
-            <option value="insurance">Insurance Info</option>
-            <option value="vitals">Vitals</option>
-        </select>
-        <input type="submit" value="Go">
-    </form>
+        <form action="/select_option" method="POST">
+            <select name="option">
+                <option value="demographic">Demographic Info</option>
+                <option value="insurance">Insurance Info</option>
+                <option value="vitals">Vitals</option>
+            </select>
+            <input type="submit" value="Next">
+        </form>
 
-    <ul>
-        <li><a href="/delete_account">Delete My Account</a></li>
-        <li><a href="/logout">Logout</a></li>
-    </ul>
+<!--        <div class="button-container">-->
+<!--            <a href="/delete_account">Delete My Account</a>-->
+<!--            <a href="/logout">Logout</a>-->
+<!--        </div>-->
+        <div class="button-container">
+            <form method="POST" action="/delete_account">
+                <button type="submit">Delete My Account</button>
+            </form>
+            <a href="/logout">Logout</a>
+        </div>
+
+
+    </div>
 </body>
 </html>
+
+
 

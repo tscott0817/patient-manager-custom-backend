@@ -3,6 +3,7 @@ from psycopg2 import sql
 from psycopg2 import errors
 from passlib.hash import sha256_crypt
 
+
 def create_roles():
     # Database connection parameters
     conn = psycopg2.connect(
@@ -55,10 +56,20 @@ def connect_to_database():
         port='5432'
     )
 
-def create_user():
-    username = input("Please Create a Username: ")
-    password = input("Please Create a Password: ")
-    insert_user(username, password)
+
+def create_user(username, password):
+
+    # Check to make sure username is not already stored in database
+    conn = connect_to_database()
+    conn.autocommit = True
+    cursor = conn.cursor()
+    cursor.execute("SELECT username FROM login_data WHERE username = %s", (username,))
+    result = cursor.fetchone()
+    if result:
+        return False  # User already exists
+    else:
+        insert_user(username, password)
+        return True  # User does not exist
 
 
 def login():
@@ -285,6 +296,38 @@ def insert_patient_vitals(pat_id, patient_vital_data):
             conn.close()
 
 
+def get_pat_id():
+    # Return the pat_id from the login_data table
+    conn = psycopg2.connect(
+        database="patients",
+        user='postgres',
+        password='Oblivion14',
+        host='localhost',
+        port='5432'
+    )
+    conn.autocommit = True
+
+    cursor = conn.cursor()
+
+    try:
+        sql_select = '''
+            SELECT pat_id
+            FROM login_data
+        '''
+        cursor.execute(sql_select)
+        pat_id = cursor.fetchone()[0]
+        return pat_id
+
+    except Exception as e:
+        # Handle any exceptions that may occur during database operations
+        print(f"Error: {e}")
+        return None
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
 def get_patient_data(pat_id):
     conn = psycopg2.connect(
         database="patients",
@@ -299,12 +342,12 @@ def get_patient_data(pat_id):
 
     try:
 
-        sql_demo_select = f'''
+        sql_login_select = f'''
             SELECT *
             FROM login_data
             WHERE pat_id = {pat_id}
         '''
-        cursor.execute(sql_demo_select)
+        cursor.execute(sql_login_select)
         login_data = cursor.fetchone()
 
         # Retrieve all columns from the demographic_info table
